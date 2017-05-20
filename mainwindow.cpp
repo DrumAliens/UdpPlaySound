@@ -121,46 +121,55 @@ void MainWindow::ReadSndFileNames() {
 
     QFile f(qApp->applicationDirPath() + "/SndFileList.txt");
 
-    //file opened successfully
-    if (f.open(QIODevice::ReadOnly))
-    {
-        // Read all of the data in one go
-        QString data = f.readAll();
+    // Check that the Sound File exists
+    if (f.exists()) {
 
-        // Splits the data into rows using the carriage return
-        sndFileName_Ary = data.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
+        //file opened successfully
+        if (f.open(QIODevice::ReadOnly))
+        {
+            // Read all of the data in one go
+            QString data = f.readAll();
 
-        // Find the number of rows in the file
-        int numRow_Z = sndFileName_Ary.count();
+            // Splits the data into rows using the carriage return
+            sndFileName_Ary = data.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
 
-        // Check that there are the at least 3 files
-        // Don't really care if there are more than 3 we won't play them
-        if (numRow_Z >= 3) {
+            // Find the number of rows in the file
+            int numRow_Z = sndFileName_Ary.count();
 
-            // Check through the file names that they are valid
-            for (int i = 0; i < numRow_Z; i++) {
-                // Point at the file
-                QFile loclFileName(qApp->applicationDirPath() + "/" + sndFileName_Ary[i]);
+            // Check that there are the at least 3 files
+            // Don't really care if there are more than 3 we won't play them
+            if (numRow_Z >= 3) {
 
-                // If already failed then no point checking any further
-                if (sndFileChck_B) {
-                    // Check that the file exists
-                    if (loclFileName.exists()==false) {
-                        // Set the file check flag to true
-                        sndFileChck_B = false;
+                // Check through the file names that they are valid
+                for (int i = 0; i < numRow_Z; i++) {
+                    // Point at the file
+                    QFile loclFileName(qApp->applicationDirPath() + "/" + sndFileName_Ary[i]);
+
+                    // If already failed then no point checking any further
+                    if (sndFileChck_B) {
+                        // Check that the file exists
+                        if (loclFileName.exists()==false) {
+                            // Set the file check flag to true
+                            sndFileChck_B = false;
+                        }
                     }
                 }
+
+            }
+            else {
+                // Set the file check flag to true
+                sndFileChck_B = false;
             }
 
-        }
-        else {
-            // Set the file check flag to true
-            sndFileChck_B = false;
+            // close the file
+            f.close();
+
         }
 
-        // close the file
-        f.close();
-
+    }
+    else {
+        // if the sound file doesn't exist fail the process
+        sndFileChck_B = false;
     }
 
     // Send out a display to the Gui Text box
