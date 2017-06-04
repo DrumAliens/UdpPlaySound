@@ -1,6 +1,6 @@
 # UdpPlaySound
 
-This is a program written in QT which allows a udp messages to control the playing of 3 sound files. The program reads in a json format file which needs to contain the names of the 3 sounds files and the IP and Port address of the transmitted udp message. The sound files can be directly played from the GUI using the buttons provided, see screen shot below. 
+This is a program written in QT which allows a udp messages to control the playing of 3 sound files. The program reads in a json format file which needs to contain the names of the 3 sounds files and the IP and Port address of the transmitted udp message. The sound files can be directly played from the GUI using the buttons provided, see screen shot below. The dial controls the master volume for all of the sounds.
 
 The program listens on Receiving IP and Port address for an integer 1, 2 or 3, or if the radio button is selected then text "1", "2", or "3" (ASCII 49, 50, or 51) to play sound. If whilst the sound is playing a new valid sound message is received then this will be played. If the new message is not in the valid sound file then the sound will be switched off. This then provides that ability to control the length of time a sound is played.
 
