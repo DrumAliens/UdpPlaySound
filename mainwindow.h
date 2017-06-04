@@ -4,18 +4,19 @@
 #include <QMainWindow>
 #include <QMediaPlayer>
 #include <QtNetwork/QUdpSocket>
+#include <QShortcut>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonValue>
+#include <QFileDialog>
+
 //#include <QTime>
 //#include <QTimer>
 
 // UDP information
-#define UDP_DEFAULT_RX_PORT 33033
-#define UDP_DEFAULT_TX_PORT 33034
-#define UDP_DEFAULT_IP_ADDR "127.0.0.1"
 #define UDP_RX_BUFF_SIZE 3072  //size of UDP Rx buffer
-
-// periodic timestamp timer
-//#define TIMER_PERIOD 50  //50ms
-
+#define MAX_NUM_SNDFILES 3    // maximum number of sound files
 namespace Ui {
 class MainWindow;
 }
@@ -35,13 +36,23 @@ private slots:
 
     void on_pushButton_3_clicked();
 
-    //void updateTimer();
-
     void readPendingUdpDatagrams();
 
     void on_dial_sliderMoved(int position);
 
-    void ReadSndFileNames();
+    void on_radioButton_toggled(bool checked);
+
+    void slotShortcutCtrlR();
+
+    void DisGuiButtnPres();
+
+    void EnblGuiButtnPres();
+
+    void ReadJsonFileInfo();
+
+    void on_actionOpen_File_triggered();
+
+    void on_actionClose_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -52,18 +63,21 @@ private:
     // UDP INITIALISATION
     QUdpSocket *udpSocket;
     QHostAddress udpHostAddr;
-    quint16 udpRxPortNum;
-    quint16 udpTxPortNum;
+    quint16 udpRxPort_Z;
+    QString udpIpAddr_Str;
+    bool udpRxBind_B;
 
-//    // TIMER INITILISATION
-//    QTime myTimer;
-//    double timeStamp;
-//    QTimer *timer;
-//    int countTimer;
+    QString jsonFileName_Str;
 
     // Flag used to check the loading of the sound files
     bool sndFileChck_B;
     QStringList sndFileName_Ary;
+
+    // rx udp Ascii gain
+    quint16 rxUdpAsciiMsg_Z;
+
+    // Create shortcut key
+    QShortcut *keyCtrlR;
 
 };
 
